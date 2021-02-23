@@ -13,26 +13,29 @@ class PieceTest {
     @DisplayName("piece의 type별로 흰/검 말이 생성되어야 한다")
     void createPiece() {
         assertAll(
-                () -> verifyPiece(Piece.createWhitePawn(), Color.WHITE, Type.PAWN.getWhiteRepresentation()),
-                () -> verifyPiece(Piece.createWhiteKnight(), Color.WHITE, Type.KNIGHT.getWhiteRepresentation()),
-                () -> verifyPiece(Piece.createWhiteRook(), Color.WHITE, Type.ROOK.getWhiteRepresentation()),
-                () -> verifyPiece(Piece.createWhiteBishop(), Color.WHITE, Type.BISHOP.getWhiteRepresentation()),
-                () -> verifyPiece(Piece.createWhiteQueen(), Color.WHITE, Type.QUEEN.getWhiteRepresentation()),
-                () -> verifyPiece(Piece.createWhiteKing(), Color.WHITE, Type.KING.getWhiteRepresentation()),
+                () -> verifyPiece(Piece.createWhitePawn(), Piece.createBlackPawn(), Type.PAWN),
+                () -> verifyPiece(Piece.createWhiteKnight(), Piece.createBlackKnight(), Type.KNIGHT),
+                () -> verifyPiece(Piece.createWhiteRook(), Piece.createBlackRook(), Type.ROOK),
+                () -> verifyPiece(Piece.createWhiteBishop(), Piece.createBlackBishop(), Type.BISHOP),
+                () -> verifyPiece(Piece.createWhiteQueen(), Piece.createBlackQueen(), Type.QUEEN),
+                () -> verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING)
+        );
 
-                () -> verifyPiece(Piece.createBlackPawn(), Color.BLACK, Type.PAWN.getBlackRepresentation()),
-                () -> verifyPiece(Piece.createBlackKnight(), Color.BLACK, Type.KNIGHT.getBlackRepresentation()),
-                () -> verifyPiece(Piece.createBlackRook(), Color.BLACK, Type.ROOK.getBlackRepresentation()),
-                () -> verifyPiece(Piece.createBlackBishop(), Color.BLACK, Type.BISHOP.getBlackRepresentation()),
-                () -> verifyPiece(Piece.createBlackQueen(), Color.BLACK, Type.QUEEN.getBlackRepresentation()),
-                () -> verifyPiece(Piece.createBlackKing(), Color.BLACK, Type.KING.getBlackRepresentation())
+        Piece blank = Piece.createBlank();
+        assertAll(
+                () -> assertThat(blank.isWhite()).isFalse(),
+                () -> assertThat(blank.isBlack()).isFalse(),
+                () -> assertThat(blank.getType()).isEqualTo(Type.NO_PIECE)
         );
     }
 
-    private void verifyPiece(final Piece piece, final Color color, final char representation) {
+    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
         assertAll(
-                () -> assertThat(piece.getColor()).isEqualTo(color),
-                () -> assertThat(piece.getRepresentation()).isEqualTo(representation)
+                () -> assertThat(whitePiece.isWhite()).isTrue(),
+                () -> assertThat(whitePiece.getType()).isEqualTo(type),
+
+                () -> assertThat(blackPiece.isBlack()).isTrue(),
+                () -> assertThat(whitePiece.getType()).isEqualTo(type)
         );
     }
 

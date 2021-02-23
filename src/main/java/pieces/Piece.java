@@ -11,7 +11,8 @@ public class Piece {
         ROOK('r'),
         BISHOP('b'),
         QUEEN('q'),
-        KING('k');
+        KING('k'),
+        NO_PIECE('.');
 
         private final char representation;
 
@@ -20,6 +21,7 @@ public class Piece {
         }
 
         public char getWhiteRepresentation() {
+
             return this.representation;
         }
 
@@ -46,6 +48,10 @@ public class Piece {
 
     public char getRepresentation() {
         return (this.isWhite()) ? this.type.getWhiteRepresentation() : this.type.getBlackRepresentation();
+    }
+
+    public static Piece createBlank() {
+        return new Piece(Color.NOCOLOR, Type.NO_PIECE);
     }
 
     public static Piece createWhitePawn() {
