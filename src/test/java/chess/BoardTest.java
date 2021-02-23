@@ -56,6 +56,7 @@ class BoardTest {
         Piece blackPiece = Piece.createBlackRook();
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> board.addWhitePiece(blackPiece));
+
         Piece whitePiece = Piece.createWhiteRook();
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> board.addBlackPiece(whitePiece));
