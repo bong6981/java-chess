@@ -46,4 +46,13 @@ class PieceTest {
                 () -> assertThat(whitePiece.isWhite()).isTrue()
         );
     }
+
+    @Test
+    @DisplayName("piece의 representation이 getWhite/BlackRepresentation()을 통해 확인되어야 한다")
+    void getRepresentationPerPiece() {
+        assertAll(
+                () -> assertThat(Type.PAWN.getWhiteRepresentation()).isEqualTo('p'),
+                () -> assertThat(Type.PAWN.getBlackRepresentation()).isEqualTo('P')
+        );
+    }
 }

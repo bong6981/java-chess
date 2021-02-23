@@ -2,31 +2,29 @@ package pieces;
 
 public class Piece {
     public enum Color {
-        WHITE, BLACK;
+        WHITE, BLACK, NOCOLOR;
     }
 
     public enum Type {
-        PAWN('p', 'P'),
-        KNIGHT('n', 'N'),
-        ROOK('r', 'R'),
-        BISHOP('b', 'B'),
-        QUEEN('q', 'Q'),
-        KING('k', 'K');
+        PAWN('p'),
+        KNIGHT('n'),
+        ROOK('r'),
+        BISHOP('b'),
+        QUEEN('q'),
+        KING('k');
 
-        private final char whiteRepresentation;
-        private final char blackRepresentation;
+        private final char representation;
 
-        Type(char whiteRepresentation, char blackRepresentation) {
-            this.whiteRepresentation = whiteRepresentation;
-            this.blackRepresentation = blackRepresentation;
+        Type(char representation) {
+            this.representation = representation;
         }
 
         public char getWhiteRepresentation() {
-            return this.whiteRepresentation;
+            return this.representation;
         }
 
         public char getBlackRepresentation() {
-            return this.blackRepresentation;
+            return Character.toUpperCase(this.representation);
         }
     }
 
