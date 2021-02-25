@@ -1,6 +1,7 @@
 package chess;
 
 import pieces.Piece;
+import pieces.Piece.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +9,14 @@ import java.util.List;
 import static utils.StringUtils.appendNewLine;
 
 public class Board {
-    Board(){
+    Board() {
     }
 
     static final int FILE_COUNT = 8;
     static final int RANK_COUNT = 8;
     private List<Rank> ranks = new ArrayList<>(RANK_COUNT);
 
-    private void addRank(Rank rank){
+    private void addRank(Rank rank) {
         ranks.add(rank);
     }
 
@@ -47,18 +48,17 @@ public class Board {
 //        blackPieces.add(piece);
 //    }
 
-
     public int pieceCount() {
         int pieceCount = 0;
-        for( Rank rank : ranks ){
+        for (Rank rank : ranks) {
             pieceCount += rank.pieceCountInRank();
         }
         return pieceCount;
     }
 
-    public int pieceCount(Piece.Color color, Piece.Type type) {
+    public int pieceCount(Color color, Type type) {
         int pieceCount = 0;
-        for( Rank rank : ranks ){
+        for (Rank rank : ranks) {
             pieceCount += rank.pieceCountInRank(color, type);
         }
         return pieceCount;
@@ -116,11 +116,21 @@ public class Board {
     public String showBoard() {
         StringBuilder result = new StringBuilder();
         final int MAX_INDEX = ranks.size() - 1;
-        for(int i = MAX_INDEX; i >= 0; i--){
+        for (int i = MAX_INDEX; i >= 0; i--) {
             result.append(appendNewLine(getRankResult(ranks.get(i))));
         }
         return result.toString();
     }
 
 
+    public Piece findPiece(String inputPosition) {
+        Position position = Position.createPosition(inputPosition);
+        Piece piece = findPiece(position.getXPos(), position.getYPos());
+        return piece;
+    }
+
+    public Piece findPiece(int x, int y) {
+        Piece piece = ranks.get(y).getPiece(x);
+        return piece;
+    }
 }

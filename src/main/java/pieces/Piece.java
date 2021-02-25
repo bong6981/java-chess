@@ -1,5 +1,7 @@
 package pieces;
 
+import java.util.Objects;
+
 public class Piece {
     public enum Color {
         WHITE, BLACK, NOCOLOR;
@@ -53,11 +55,11 @@ public class Piece {
         return new Piece(Color.NOCOLOR, Type.NO_PIECE);
     }
 
-    private static Piece createWhite(Type type){
+    private static Piece createWhite(Type type) {
         return new Piece(Color.WHITE, type);
     }
 
-    private static Piece createBlack(Type type){
+    private static Piece createBlack(Type type) {
         return new Piece(Color.BLACK, type);
     }
 
@@ -115,5 +117,18 @@ public class Piece {
 
     public boolean isWhite() {
         return Color.WHITE == this.color;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Piece)) return false;
+        Piece piece = (Piece) o;
+        return getColor() == piece.getColor() && getType() == piece.getType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getColor(), getType());
     }
 }

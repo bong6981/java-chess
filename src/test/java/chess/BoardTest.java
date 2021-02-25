@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import pieces.Piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static utils.StringUtils.appendNewLine;
 
 
@@ -25,7 +26,7 @@ class BoardTest {
 
         final String blankRank = appendNewLine("........");
         assertThat(board.showBoard()).isEqualTo(
-                        appendNewLine("RNBQKBNR") +
+                appendNewLine("RNBQKBNR") +
                         appendNewLine("PPPPPPPP") +
                         blankRank + blankRank + blankRank + blankRank +
                         appendNewLine("pppppppp") +
@@ -34,9 +35,21 @@ class BoardTest {
 
     @Test
     @DisplayName("기물의 색과 종류를 인자로 받아 해당 기물의 개수를 반환해야 한다")
-    void CountCertainPieceTest() {
+    void countCertainPieceTest() {
         board.initialize();
         assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.QUEEN)).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("기물 위치를 보내면 해당 폰을 반환한다")
+    void findPiece() {
+        board.initialize();
+        assertAll(
+                () -> assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlackRook()),
+                () -> assertThat(board.findPiece("h8")).isEqualTo(Piece.createBlackRook()),
+                () -> assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhiteRook()),
+                () -> assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhiteRook())
+        );
     }
 //
 //    @Test

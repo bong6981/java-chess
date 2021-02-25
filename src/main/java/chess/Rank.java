@@ -23,31 +23,31 @@ public class Rank {
         rank.addPiece(Piece.createBlackRook());
         return rank;
     }
-    
-    int pieceCountInRank(){
+
+    int pieceCountInRank() {
         return pieceCount;
     }
 
 
-    int pieceCountInRank(Piece.Color color, Piece.Type type){
+    int pieceCountInRank(Piece.Color color, Piece.Type type) {
         int pieceCount = 0;
-        for( Piece piece : pieces) {
+        for (Piece piece : pieces) {
             if (color == piece.getColor() &&
-                    type == piece.getType()){
+                    type == piece.getType()) {
                 pieceCount++;
             }
         }
         return pieceCount;
     }
 
-    private void addPiece(Piece piece){
+    private void addPiece(Piece piece) {
         pieces.add(piece);
         pieceCount++;
     }
 
-    String getPiecesResult(){
+    String getPiecesResult() {
         StringBuilder sb = new StringBuilder();
-        for( Piece piece : pieces) {
+        for (Piece piece : pieces) {
             sb.append(piece.getRepresentation());
         }
         return sb.toString();
@@ -85,8 +85,13 @@ public class Rank {
     public static Rank initializeBlackPawns() {
         Rank rank = new Rank();
         for (int i = 0; i < Board.FILE_COUNT; i++) {
-             rank.addPiece(Piece.createBlackPawn());
+            rank.addPiece(Piece.createBlackPawn());
         }
         return rank;
+    }
+
+    public Piece getPiece(int index) {
+        Piece piece = pieces.get(index);
+        return piece;
     }
 }
