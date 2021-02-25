@@ -113,6 +113,12 @@ public class Board {
         addRank(Rank.initializeBlackPieces());
     }
 
+    public void initializeEmpty() {
+        for(int i=0; i<RANK_COUNT; i++){
+            addRank(Rank.initializeBlankPieces());
+        }
+    }
+
     public String showBoard() {
         StringBuilder result = new StringBuilder();
         final int MAX_INDEX = ranks.size() - 1;
@@ -132,5 +138,12 @@ public class Board {
     public Piece findPiece(int x, int y) {
         Piece piece = ranks.get(y).getPiece(x);
         return piece;
+    }
+
+    public void move(String inputPosition, Piece piece) {
+        Position position = Position.createPosition(inputPosition);
+        int y = position.getYPos();
+        int x = position.getXPos();
+        ranks.get(y).setPiece(x, piece);
     }
 }

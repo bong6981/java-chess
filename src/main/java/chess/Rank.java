@@ -94,4 +94,8 @@ public class Rank {
         Piece piece = pieces.get(index);
         return piece;
     }
+
+    public void setPiece(int index, Piece piece) {
+        pieces.set(index, piece);
+    }
 }

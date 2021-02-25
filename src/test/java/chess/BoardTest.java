@@ -35,13 +35,14 @@ class BoardTest {
 
     @Test
     @DisplayName("기물의 색과 종류를 인자로 받아 해당 기물의 개수를 반환해야 한다")
-    void countCertainPieceTest() {
+    void countCertainPiece() {
         board.initialize();
         assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.QUEEN)).isEqualTo(1);
+        assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.PAWN)).isEqualTo(8);
     }
 
     @Test
-    @DisplayName("기물 위치를 보내면 해당 폰을 반환한다")
+    @DisplayName("기물 위치를 보내면 해당 기물을 반환해야 한다")
     void findPiece() {
         board.initialize();
         assertAll(
@@ -51,6 +52,28 @@ class BoardTest {
                 () -> assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhiteRook())
         );
     }
+
+    @Test
+    @DisplayName("빈 기물들로 체스판을 초기화하고 원하는 위치에 기물을 배치할 수 있어야한다")
+    public void move() {
+        board.initializeEmpty();
+
+        String position = "b5";
+        Piece piece = Piece.createBlackRook();
+        board.move(position, piece);
+
+
+        final String blankRank = appendNewLine("........");
+        assertAll(
+                () -> assertThat(board.findPiece(position)).isEqualTo(piece),
+                () -> assertThat(board.showBoard()).isEqualTo(
+                                blankRank + blankRank + blankRank +
+                                appendNewLine(".R......") +
+                                blankRank + blankRank + blankRank + blankRank)
+        );
+    }
+
+
 //
 //    @Test
 //    @DisplayName("잘못된 색의 pawn을 추가하거나 pawn아닌 다른 pawn을 추가할 수 없다")
