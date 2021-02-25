@@ -49,7 +49,7 @@ public class Piece {
         return (this.isWhite()) ? this.type.getWhiteRepresentation() : this.type.getBlackRepresentation();
     }
 
-    public static Piece createBlank() {
+    public static Piece createBlankPiece() {
         return new Piece(Color.NOCOLOR, Type.NO_PIECE);
     }
 

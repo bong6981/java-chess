@@ -21,7 +21,7 @@ class PieceTest {
                 () -> verifyPiece(Piece.createWhiteKing(), Piece.createBlackKing(), Type.KING)
         );
 
-        Piece blank = Piece.createBlank();
+        Piece blank = Piece.createBlankPiece();
         assertAll(
                 () -> assertThat(blank.isWhite()).isFalse(),
                 () -> assertThat(blank.isBlack()).isFalse(),
