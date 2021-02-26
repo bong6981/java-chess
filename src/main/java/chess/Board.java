@@ -1,7 +1,8 @@
 package chess;
 
 import pieces.Piece;
-import pieces.Piece.*;
+import pieces.Piece.Color;
+import pieces.Piece.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +13,115 @@ public class Board {
     Board() {
     }
 
-    static final int FILE_COUNT = 8;
-    static final int RANK_COUNT = 8;
+    private static final int RANK_COUNT = 8;
+    private static final int FILE_COUNT = 8;
     private List<Rank> ranks = new ArrayList<>(RANK_COUNT);
+
+    public void initialize() {
+        addRank(Rank.initializeWhitePieces());
+        addRank(Rank.initializeWhitePawns());
+        addRank(Rank.initializeBlankPieces());
+        addRank(Rank.initializeBlankPieces());
+        addRank(Rank.initializeBlankPieces());
+        addRank(Rank.initializeBlankPieces());
+        addRank(Rank.initializeBlackPawns());
+        addRank(Rank.initializeBlackPieces());
+    }
+
+    public void initializeEmpty() {
+        for (int i = 0; i < RANK_COUNT; i++) {
+            addRank(Rank.initializeBlankPieces());
+        }
+    }
 
     private void addRank(Rank rank) {
         ranks.add(rank);
     }
 
-//    void addWhitePawn(Piece piece) {
+    public void move(String stringPosition, Piece piece) {
+        Position position = Position.createPosition(stringPosition);
+        int yIndex = position.getYIndex();
+        int xIndex = position.getXIndex();
+        ranks.get(yIndex).setPiece(xIndex, piece);
+    }
+
+    public int countAllPieces() {
+        int pieceCount = 0;
+        for (Rank rank : ranks) {
+            pieceCount += rank.countAllPieces();
+        }
+        return pieceCount;
+    }
+
+    public int countPiece(Color color, Type type) {
+        int pieceCount = 0;
+        for (Rank rank : ranks) {
+            pieceCount += rank.countPiece(color, type);
+        }
+        return pieceCount;
+    }
+
+    public Piece findPiece(String stringPosition) {
+        Position position = Position.createPosition(stringPosition);
+        Piece piece = findPiece(position.getXIndex(), position.getYIndex());
+        return piece;
+    }
+
+    private Piece findPiece(int xIndex, int yIndex) {
+        Piece piece = ranks.get(yIndex).getPiece(xIndex);
+        return piece;
+    }
+
+    public double calculatePoint(Color color) {
+        double piecePoint = sumPiecePoint(color);
+        int halfPawnCount = countHalfPawn(color);
+        double point = piecePoint - halfPawnCount * 0.5;
+        return point;
+    }
+
+    private double sumPiecePoint(Color color) {
+        double piecePoint = 0;
+        for (Rank rank : ranks) {
+            piecePoint += rank.sumPiecePoint(color);
+        }
+        return piecePoint;
+    }
+
+    private int countHalfPawn(Color color) {
+        List<Integer> pawnsFileIndex = getPawnsFileIndex(color);
+        int halfPawnCount = 0;
+        for (int i = 0; i < FILE_COUNT; i++) {
+            int fileIndex = i;
+            int pawnCountByFile = (int) pawnsFileIndex.stream().filter(index -> index == fileIndex)
+                    .count();
+            if (pawnCountByFile >= 2) {
+                halfPawnCount += pawnCountByFile;
+            }
+        }
+        return halfPawnCount;
+    }
+
+    private List<Integer> getPawnsFileIndex(Color color) {
+        List<Integer> pawnsFileIndex = new ArrayList<>();
+        for (Rank rank : ranks) {
+            pawnsFileIndex.addAll(rank.getPawnsFileIndex(color));
+        }
+        return pawnsFileIndex;
+    }
+
+    public String showBoard() {
+        StringBuilder result = new StringBuilder();
+        final int MAX_INDEX = ranks.size() - 1;
+        for (int i = MAX_INDEX; i >= 0; i--) {
+            result.append(appendNewLine(getRankResult(ranks.get(i))));
+        }
+        return result.toString();
+    }
+
+    private String getRankResult(Rank rank) {
+        return rank.getPiecesResult();
+    }
+    //    void addWhitePawn(Piece piece) {
 //        if (!piece.isWhite() || piece.getType() != Piece.Type.PAWN) {
 //            throw new InvalidParameterException("흰색의 pawn만 추가할 수 있습니다.");
 //        }
@@ -48,28 +149,7 @@ public class Board {
 //        blackPieces.add(piece);
 //    }
 
-    public int pieceCount() {
-        int pieceCount = 0;
-        for (Rank rank : ranks) {
-            pieceCount += rank.pieceCountInRank();
-        }
-        return pieceCount;
-    }
-
-    public int pieceCount(Color color, Type type) {
-        int pieceCount = 0;
-        for (Rank rank : ranks) {
-            pieceCount += rank.pieceCountInRank(color, type);
-        }
-        return pieceCount;
-    }
-
-
-    private String getRankResult(Rank rank) {
-        return rank.getPiecesResult();
-
-    }
-//
+    //
 //    private String getWhitePiecesResult() {
 //        return getPiecesResult(whitePieces);
 //    }
@@ -101,49 +181,7 @@ public class Board {
 //        }
 //        return representations;
 //    }
-
-    public void initialize() {
-        addRank(Rank.initializeWhitePieces());
-        addRank(Rank.initializeWhitePawns());
-        addRank(Rank.initializeBlankPieces());
-        addRank(Rank.initializeBlankPieces());
-        addRank(Rank.initializeBlankPieces());
-        addRank(Rank.initializeBlankPieces());
-        addRank(Rank.initializeBlackPawns());
-        addRank(Rank.initializeBlackPieces());
-    }
-
-    public void initializeEmpty() {
-        for(int i=0; i<RANK_COUNT; i++){
-            addRank(Rank.initializeBlankPieces());
-        }
-    }
-
-    public String showBoard() {
-        StringBuilder result = new StringBuilder();
-        final int MAX_INDEX = ranks.size() - 1;
-        for (int i = MAX_INDEX; i >= 0; i--) {
-            result.append(appendNewLine(getRankResult(ranks.get(i))));
-        }
-        return result.toString();
-    }
-
-
-    public Piece findPiece(String inputPosition) {
-        Position position = Position.createPosition(inputPosition);
-        Piece piece = findPiece(position.getXPos(), position.getYPos());
-        return piece;
-    }
-
-    public Piece findPiece(int x, int y) {
-        Piece piece = ranks.get(y).getPiece(x);
-        return piece;
-    }
-
-    public void move(String inputPosition, Piece piece) {
-        Position position = Position.createPosition(inputPosition);
-        int y = position.getYPos();
-        int x = position.getXPos();
-        ranks.get(y).setPiece(x, piece);
-    }
 }
+
+
+

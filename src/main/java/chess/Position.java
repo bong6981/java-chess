@@ -7,27 +7,35 @@ public class Position {
     Position() {
     }
 
-    public static Position createPosition(String inputPosition) {
+    public static Position createPosition(String stringPosition) {
         Position position = new Position();
-        if (inputPosition.length() != 2) {
+        if (stringPosition.length() != 2) {
             throw new IllegalArgumentException("위치값을 올바르게 입력해주세요");
         }
-        char x = inputPosition.charAt(0);
-        char y = inputPosition.charAt(1);
-        if (!('a' <= x && x <= 'h') &&
-                ('1' <= y && y <= '8')) {
+        char x = stringPosition.charAt(0);
+        char y = stringPosition.charAt(1);
+        if (!(('a' <= x && x <= 'h') &&
+                ('1' <= y && y <= '8'))) {
             throw new IllegalArgumentException("범위에맞는 위치값을 입력해주세요");
         }
-        position.x = x - 'a';
-        position.y = Character.getNumericValue(y) - 1;
+        position.x = x - 'a' + 1;
+        position.y = Character.getNumericValue(y);
         return position;
     }
 
-    public int getXPos() {
+    public int getX() {
         return this.x;
     }
 
-    public int getYPos() {
+    public int getY() {
         return this.y;
+    }
+
+    public int getXIndex() {
+        return this.x - 1;
+    }
+
+    public int getYIndex() {
+        return this.y - 1;
     }
 }

@@ -4,8 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pieces.Piece;
+import pieces.Piece.Color;
+import pieces.Piece.Type;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.offset;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static utils.StringUtils.appendNewLine;
 
@@ -19,10 +22,10 @@ class BoardTest {
     }
 
     @Test
-    @DisplayName("board를 initialize()하고 출력을 확인한다")
+    @DisplayName("board를 initialize()하고 출력을 확인해야한다")
     void create() {
         board.initialize();
-        assertThat(board.pieceCount()).isEqualTo(64);
+        assertThat(board.countAllPieces()).isEqualTo(64);
 
         final String blankRank = appendNewLine("........");
         assertThat(board.showBoard()).isEqualTo(
@@ -33,12 +36,13 @@ class BoardTest {
                         appendNewLine("rnbqkbnr"));
     }
 
+
     @Test
     @DisplayName("기물의 색과 종류를 인자로 받아 해당 기물의 개수를 반환해야 한다")
     void countCertainPiece() {
         board.initialize();
-        assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.QUEEN)).isEqualTo(1);
-        assertThat(board.pieceCount(Piece.Color.WHITE, Piece.Type.PAWN)).isEqualTo(8);
+        assertThat(board.countPiece(Color.WHITE, Type.QUEEN)).isEqualTo(1);
+        assertThat(board.countPiece(Color.WHITE, Type.PAWN)).isEqualTo(8);
     }
 
     @Test
@@ -67,12 +71,37 @@ class BoardTest {
         assertAll(
                 () -> assertThat(board.findPiece(position)).isEqualTo(piece),
                 () -> assertThat(board.showBoard()).isEqualTo(
-                                blankRank + blankRank + blankRank +
+                        blankRank + blankRank + blankRank +
                                 appendNewLine(".R......") +
                                 blankRank + blankRank + blankRank + blankRank)
         );
     }
 
+    @Test
+    @DisplayName("배치된 기물을 규칙에 따라 point를 계산해야한다")
+    void calculatePoint() {
+        board.initializeEmpty();
+
+        addPiece("b6", Piece.createBlackPawn());
+        addPiece("e6", Piece.createBlackQueen());
+        addPiece("b8", Piece.createBlackKing());
+        addPiece("c8", Piece.createBlackRook());
+
+        addPiece("f2", Piece.createWhitePawn());
+        addPiece("g2", Piece.createWhitePawn());
+        addPiece("e1", Piece.createWhiteRook());
+        addPiece("f1", Piece.createWhiteKing());
+
+        assertAll(
+                () -> assertThat(board.calculatePoint(Color.BLACK)).isEqualTo(15.0, offset(0.01)),
+                () -> assertThat(board.calculatePoint(Color.WHITE)).isEqualTo(7.0, offset(0.01))
+        );
+    }
+
+    private void addPiece(String position, Piece piece) {
+        board.move(position, piece);
+    }
+}
 
 //
 //    @Test
@@ -103,4 +132,4 @@ class BoardTest {
 //        assertThatExceptionOfType(InvalidParameterException.class)
 //                .isThrownBy(() -> board.addBlackPiece(whitePiece));
 //    }
-}
+
