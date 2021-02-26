@@ -3,6 +3,7 @@ package chess;
 import pieces.Piece;
 import pieces.Piece.Color;
 import pieces.Piece.Type;
+import pieces.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +19,19 @@ public class Board {
     private List<Rank> ranks = new ArrayList<>(RANK_COUNT);
 
     public void initialize() {
-        addRank(Rank.initializeWhitePieces());
-        addRank(Rank.initializeWhitePawns());
-        addRank(Rank.initializeBlankPieces());
-        addRank(Rank.initializeBlankPieces());
-        addRank(Rank.initializeBlankPieces());
-        addRank(Rank.initializeBlankPieces());
-        addRank(Rank.initializeBlackPawns());
-        addRank(Rank.initializeBlackPieces());
+        addRank(Rank.initializeWhitePieces(0));
+        addRank(Rank.initializeWhitePawns(1));
+        addRank(Rank.initializeBlankPieces(2));
+        addRank(Rank.initializeBlankPieces(3));
+        addRank(Rank.initializeBlankPieces(4));
+        addRank(Rank.initializeBlankPieces(5));
+        addRank(Rank.initializeBlackPawns(6));
+        addRank(Rank.initializeBlackPieces(7));
     }
 
     public void initializeEmpty() {
         for (int i = 0; i < RANK_COUNT; i++) {
-            addRank(Rank.initializeBlankPieces());
+            addRank(Rank.initializeBlankPieces(i));
         }
     }
 

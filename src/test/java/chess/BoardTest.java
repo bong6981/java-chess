@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pieces.Piece;
-import pieces.Piece.Color;
-import pieces.Piece.Type;
+import pieces.Piece.*;
+import pieces.Position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.offset;
@@ -50,10 +50,10 @@ class BoardTest {
     void findPiece() {
         board.initialize();
         assertAll(
-                () -> assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlackRook()),
-                () -> assertThat(board.findPiece("h8")).isEqualTo(Piece.createBlackRook()),
-                () -> assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhiteRook()),
-                () -> assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhiteRook())
+                () -> assertThat(board.findPiece("a8")).isEqualTo(Piece.createBlackRook(Position.createPosition("a8"))),
+                () -> assertThat(board.findPiece("h8")).isEqualTo(Piece.createBlackRook(Position.createPosition("h8"))),
+                () -> assertThat(board.findPiece("a1")).isEqualTo(Piece.createWhiteRook(Position.createPosition("a1"))),
+                () -> assertThat(board.findPiece("h1")).isEqualTo(Piece.createWhiteRook(Position.createPosition("h1")))
         );
     }
 
@@ -63,7 +63,7 @@ class BoardTest {
         board.initializeEmpty();
 
         String position = "b5";
-        Piece piece = Piece.createBlackRook();
+        Piece piece = Piece.createBlackRook(Position.createPosition(position));
         board.move(position, piece);
 
 
@@ -82,15 +82,15 @@ class BoardTest {
     void calculatePoint() {
         board.initializeEmpty();
 
-        addPiece("b6", Piece.createBlackPawn());
-        addPiece("e6", Piece.createBlackQueen());
-        addPiece("b8", Piece.createBlackKing());
-        addPiece("c8", Piece.createBlackRook());
+        addPiece("b6", Piece.createBlackPawn(Position.createPosition("b6")));
+        addPiece("e6",Piece.createBlackQueen(Position.createPosition("e6")));
+        addPiece("b8",Piece.createBlackKing(Position.createPosition("b8")));
+        addPiece("c8", Piece.createBlackRook(Position.createPosition("c8")));
 
-        addPiece("f2", Piece.createWhitePawn());
-        addPiece("g2", Piece.createWhitePawn());
-        addPiece("e1", Piece.createWhiteRook());
-        addPiece("f1", Piece.createWhiteKing());
+        addPiece("f2", Piece.createWhitePawn(Position.createPosition("f2")));
+        addPiece("g2", Piece.createWhitePawn(Position.createPosition("g2")));
+        addPiece("e1", Piece.createWhiteRook(Position.createPosition("e1")));
+        addPiece("f1", Piece.createWhiteKing(Position.createPosition("f1")));
 
         assertAll(
                 () -> assertThat(board.calculatePoint(Color.BLACK)).isEqualTo(15.0, offset(0.01)),
@@ -98,8 +98,8 @@ class BoardTest {
         );
     }
 
-    private void addPiece(String position, Piece piece) {
-        board.move(position, piece);
+    private void addPiece(String stringPosition, Piece piece) {
+        board.move(stringPosition, piece);
     }
 }
 
