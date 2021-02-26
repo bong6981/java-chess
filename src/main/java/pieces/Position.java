@@ -1,8 +1,8 @@
 package pieces;
 
 public class Position {
-    private int x = 0;
-    private int y = 0;
+    private int x;
+    private int y;
 
     private Position(int x, int y) {
         this.x = x;
@@ -17,17 +17,17 @@ public class Position {
         char yChar = stringPosition.charAt(1);
         if (!(('a' <= xChar && xChar <= 'h') &&
                 ('1' <= yChar && yChar <= '8'))) {
-            throw new IllegalArgumentException("범위에맞는 위치값을 입력해주세요");
+            throw new IllegalArgumentException("범위에 맞는 위치값을 입력해주세요");
         }
-        int x  = xChar - 'a' + 1;
-        int y = Character.getNumericValue(yChar);
-        return new Position(x,y);
+        int xIndex = xChar - 'a' + 1;
+        int yIndex = Character.getNumericValue(yChar);
+        return new Position(xIndex, yIndex);
     }
 
-    public static Position createPosition(int xIndex, int yIndex){
+    public static Position createPosition(int xIndex, int yIndex) {
         int x = xIndex + 1;
         int y = yIndex + 1;
-        return new Position(x,y);
+        return new Position(x, y);
     }
 
     public int getXIndex() {

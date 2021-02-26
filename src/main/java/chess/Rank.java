@@ -98,6 +98,7 @@ class Rank {
 
     void setPiece(int index, Piece piece) {
         pieces.set(index, piece);
+        pieceCount++;
     }
 
     double sumPiecePoint(Color color) {
@@ -114,7 +115,6 @@ class Rank {
                 pawnsFileIndex.add(piece.getPosition().getXIndex());
             }
         }
-
         return pawnsFileIndex;
     }
 }

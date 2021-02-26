@@ -122,66 +122,6 @@ public class Board {
     private String getRankResult(Rank rank) {
         return rank.getPiecesResult();
     }
-    //    void addWhitePawn(Piece piece) {
-//        if (!piece.isWhite() || piece.getType() != Piece.Type.PAWN) {
-//            throw new InvalidParameterException("흰색의 pawn만 추가할 수 있습니다.");
-//        }
-//        whitePawns.add(piece);
-//    }
-//
-//    void addBlackPawn(Piece piece) {
-//        if (!piece.isBlack() || piece.getType() != Piece.Type.PAWN) {
-//            throw new InvalidParameterException("검은색의 pawn만 추가할 수 있습니다");
-//        }
-//        blackPawns.add(piece);
-//    }
-//
-//    void addWhitePiece(Piece piece) {
-//        if (!piece.isWhite()){
-//            throw new InvalidParameterException("흰색의 piece만 추가할 수 있습니다");
-//        }
-//        whitePieces.add(piece);
-//    }
-//
-//    void addBlackPiece(Piece piece) {
-//        if (!piece.isBlack()){
-//            throw new InvalidParameterException("검은색의 piece만 추가할수 있습니다");
-//        }
-//        blackPieces.add(piece);
-//    }
-
-    //
-//    private String getWhitePiecesResult() {
-//        return getPiecesResult(whitePieces);
-//    }
-//
-//    private String getBlackPiecesResult() {
-//        return getPiecesResult(blackPieces);
-//    }
-//
-//    private String getWhitePawnsResult() {
-//        return getPiecesResult(whitePawns);
-//    }
-//
-//    private String getBlackPawnsResult() {
-//        return getPiecesResult(blackPawns);
-//    }
-
-//    private String getPiecesResult(List<Piece> pieces) {
-//        StringBuilder sb = new StringBuilder();
-//        for (char representation : getRepresentations(pieces)) {
-//            sb.append(representation);
-//        }
-//        return sb.toString();
-//    }
-
-//    private char[] getRepresentations(List<Piece> pieces) {
-//        char[] representations = new char[pieces.size()];
-//        for (int i = 0; i < pieces.size(); i++) {
-//            representations[i] = pieces.get(i).getRepresentation();
-//        }
-//        return representations;
-//    }
 }
 
 
